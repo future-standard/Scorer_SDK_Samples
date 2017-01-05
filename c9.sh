@@ -1,3 +1,5 @@
+#!/bin/bash
+
 get_ipv4addrs() {
   /sbin/ifconfig -a                                 |
   grep inet[^6]                                     |
@@ -5,5 +7,25 @@ get_ipv4addrs() {
   grep -v '^127\.'                                  |
   head -n 1
 }
+
+PORT=20003
+
+# Handle stop option
+if [ "$1" = "stop" ]; then
+    ps -ef | grep node | grep c9sdk | grep server.js | grep -v grep | awk '{ print "kill -9", $2 }' | sh
+    exit
+fi
+
+if [ "$1" = "ip" ]; then
+    echo $(get_ipv4addrs)
+    exit
+fi
+
+if [ "$1" = "port" ]; then
+    echo $PORT
+    exit
+fi
+
+
 #echo $(get_ipv4addrs)
-node ~/c9sdk/server.js --listen $(get_ipv4addrs) --port 20003 -a dev:scorer4sdk!
+/opt/scorer/bin/node ~/c9sdk/server.js --listen $(get_ipv4addrs) --port $PORT -a dev:scorer4sdk!
