@@ -31,7 +31,7 @@ class Camera(object):
         self.web_sock = ctx.socket(zmq.SUB)
         self.web_sock.setsockopt_string(zmq.SUBSCRIBE, '')
         self.web_sock.setsockopt(zmq.RCVHWM, 1)
-        self.web_sock.bind(self.web_socket)
+        self.web_sock.connect(self.web_socket)
 
     def initialize(self):
         if Camera.thread is None:
