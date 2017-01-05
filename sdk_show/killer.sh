@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Kill Flask processes
-ps -ef | grep sdk_show | grep -v grep | awk '{ print "kill -9", $2 }' | sh
+ps -ef | grep scorer_show_sdk | grep -v grep | awk '{ print "kill -9", $2 }' | sh
