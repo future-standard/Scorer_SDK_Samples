@@ -3,14 +3,13 @@ import cv2
 import sys
 import numpy as np
 import time
-#import Scorer
-import scorer_sdk.Scorer
+from scorer import Scorer
 
 
 count=0
 print("Waiting Start...")
 
-scorer=scorer_sdk.Scorer.Scorer("Task")
+scorer=Scorer("Task")
 args = sys.argv
 
 thresh = 120
@@ -55,9 +54,8 @@ while True:
 	m = int((width*height*3-m)*100/(width*height*3))
 	bgr = cv2.rectangle(bgr, (x1,y1), (x2,y2), (0,0,255), 3)
 	bgr = cv2.line(bgr, (x1l,y1l),(x2l,y2l), (255,0,0), 3)
-	cv2.imshow("bgr", bgr)
-	cv2.imshow("crop_img", crop_img)
-	
+	scorer.web_show(bgr, 1)
+	scorer.web_show(crop_img, 2)	
 
 	endtime = time.time()
 	seconds = endtime - starttime

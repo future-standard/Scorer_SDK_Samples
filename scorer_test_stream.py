@@ -1,7 +1,7 @@
 import zmq
 import cv2
 import sys
-import scorer_sdk.Scorer
+from scorer import Scorer
 
 cnt=0
 print("Waiting Start...")
@@ -16,7 +16,7 @@ my_list  = [100,200,300]
 
 img_list = []
 
-scorer=scorer_sdk.Scorer.Scorer("Task")
+scorer=Scorer("Task")
 
 while True:
 
@@ -49,11 +49,11 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-    if cnt % 20  == 0:
-        img_list.append(bgr)
-
-    cnt = cnt + 1
-    if cnt % 50  == 0:
-        if scorer.upload(log_str = my_str, images= img_list) == False:
-            sys.exit()
-        del img_list[:]
+#    if cnt % 20  == 0:
+#        img_list.append(bgr)
+#
+#    cnt = cnt + 1
+#    if cnt % 50  == 0:
+#        if scorer.upload(log_str = my_str, images= img_list) == False:
+#            sys.exit()
+#        del img_list[:]
