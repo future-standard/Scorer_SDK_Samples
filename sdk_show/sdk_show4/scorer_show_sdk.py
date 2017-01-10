@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 import sys
+import os
+import re
 from camera import Camera
 from flask import Flask, render_template, Response
 
+home=os.getenv('HOME')
+
 MY_INDEX=4
-MY_PORT=5004
+pattern=r"WEB_SHOW4_PORT=(.*)"
+
+f=open(home + '/lib/CONFIG', 'r');
+str = f.read()
+f.close()
+
+matchs = re.finditer(pattern, str)
+for match in matchs:
+    MY_PORT=match.groups()[0]
 
 app = Flask(__name__)
 
@@ -20,7 +32,6 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
@@ -29,4 +40,4 @@ def video_feed():
 
 if __name__ == '__main__':
     args = sys.argv
-    app.run(host='0.0.0.0', debug=True, threaded=True, port=MY_PORT)
+    app.run(host='0.0.0.0', debug=False, threaded=True, port=int(MY_PORT))
